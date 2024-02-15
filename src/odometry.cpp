@@ -10,20 +10,25 @@ OdometryProcessor::OdometryProcessor(float wheelCircumfrance, float wheelBase, f
 float OdometryProcessor::handleRollover(float currentDegreeReading, float lastDegreeReading)
 {
     // float deltaDegrees = 0.0;
-    float currentPreviousDelta = currentDegreeReading - lastDegreeReading;
-    // float previousCurrentDelta = lastDegreeReading - currentDegreeReading;
+    // if (currentDegreeReading != lastDegreeReading)
+    // {
+        float currentPreviousDelta = currentDegreeReading - lastDegreeReading;
+        // float previousCurrentDelta = lastDegreeReading - currentDegreeReading;
 
-    if (currentPreviousDelta > this->rollOverThreshold)
-    {
-        currentPreviousDelta = 0 - (360.0 - currentPreviousDelta);
-    }
+        if (currentPreviousDelta > this->rollOverThreshold)
+        {
+            currentPreviousDelta = 0 - (360.0 - currentPreviousDelta);
+        }
 
-    else if (currentPreviousDelta < -this->rollOverThreshold)
-    {
-        currentPreviousDelta = 360.0 + currentPreviousDelta;
-    }
+        else if (currentPreviousDelta < -this->rollOverThreshold)
+        {
+            currentPreviousDelta = 360.0 + currentPreviousDelta;
+        }
 
-    return currentPreviousDelta;
+        return currentPreviousDelta;
+    // }
+    // If current is same as last, return no delta
+    // return 0;
 }
 
 // TODO: clp this is very  not dry one might even say this code is wet
@@ -124,10 +129,10 @@ void OdometryProcessor::calculateHeadingAngleDelta(float leftDistance, float rig
 void OdometryProcessor::updateCurrentValue(float value, Motor motor)
 {
 
-    if (value > 360.0)
-    {
-        value = 360.0;
-    }
+    // if (value > 360.0)
+    // {
+    //     value = 360.0;
+    // }
     if (motor == Motor::LEFT)
     {
         this->currentLeftReading = value;

@@ -7,7 +7,7 @@
 
 // TODO: clp - make config arguments
 constexpr float WHEEL_CIRCUMFRANCE = 1.0373;
-constexpr float WHEEL_BASE = 0.4926;  // 0.56
+constexpr float WHEEL_BASE = 0.5065;  // 0.4926;  // 0.56 // 0.5326
 constexpr float GEAR_RATIO = 2.38462; // 500 prototype -> 2.1138 (761 turns per wheel revolution)
 
 namespace ENCODER_CONVERTER

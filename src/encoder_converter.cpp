@@ -55,7 +55,7 @@ void Converter::publishOdomData()
     auto position = this->processor.getPosition();
 
     // TODO: clp handle the axis switch in proper ros fashion
-    odomPose.position.x = position.x;
+    odomPose.position.x = -position.x;
     odomPose.position.y = position.y;
     odomPose.position.z = 0.0;
 

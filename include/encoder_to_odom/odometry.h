@@ -124,7 +124,8 @@ class OdometryProcessor
     float gearRatio = 1.0;
 
     /// Angle value that a delta change triggers a rollover
-    float rollOverThreshold = 200.0;
+    /// Should be fine based on system max speed
+    float rollOverThreshold = 100.0;
 
     /// The last processed Delta angle between encoder frames
     float previousLeftDegree = 0.0;
@@ -139,7 +140,7 @@ class OdometryProcessor
     /// Total degrees the right motor has traveled since being turned on
     float totalRightDegreesTraveled = 0.0;
 
-        /// Total degrees the left motor has traveled since being turned on
+    /// Total degrees the left motor has traveled since being turned on
     float totalLeftMeterTraveled = 0.0;
     /// Total degrees the right motor has traveled since being turned on
     float totalRightMetersTraveled = 0.0;
