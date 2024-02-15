@@ -11,17 +11,24 @@ find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(luci_messages REQUIRED)
 
-add_executable(converter 
-    src/main.cpp
+add_executable(encoder_converter 
+    src/encoder_node.cpp
     src/odometry.cpp
     src/encoder_converter.cpp
 )
 
+add_executable(imu_converter 
+    src/imu_node.cpp
+    src/imu_converter.cpp
+)
 
 
-target_include_directories(converter PUBLIC
+
+
+target_include_directories(encoder_converter PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${geometry_msgs_INCLUDE_DIRS}
     ${nav_msgs_INCLUDE_DIRS}
@@ -29,7 +36,17 @@ target_include_directories(converter PUBLIC
     ${tf2_ros_INCLUDE_DIRS}
 )
 
-target_link_libraries(converter PUBLIC 
+
+target_include_directories(imu_converter PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${geometry_msgs_INCLUDE_DIRS}
+    ${nav_msgs_INCLUDE_DIRS}
+    ${luci_messages_INCLUDE_DIRS}
+    ${tf2_ros_INCLUDE_DIRS}
+    ${sensor_msgs_INCLUDE_DIRS}
+)
+
+target_link_libraries(encoder_converter PUBLIC 
   rclcpp::rclcpp 
   ${nav_msgs_LIBRARIES}
   ${geometry_msgs_LIBRARIES}
@@ -37,7 +54,18 @@ target_link_libraries(converter PUBLIC
   ${tf2_ros_LIBRARIES}
  )
 
- install (TARGETS converter DESTINATION lib/${PROJECT_NAME})
+ target_link_libraries(imu_converter PUBLIC 
+  rclcpp::rclcpp 
+  ${nav_msgs_LIBRARIES}
+  ${geometry_msgs_LIBRARIES}
+  ${luci_messages_LIBRARIES}
+  ${tf2_ros_LIBRARIES}
+  ${sensor_msgs_LIBRARIES}
+ )
+
+ install (TARGETS encoder_converter DESTINATION lib/${PROJECT_NAME})
+ install (TARGETS imu_converter DESTINATION lib/${PROJECT_NAME})
+
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
