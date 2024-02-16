@@ -1,7 +1,5 @@
 #include "encoder_to_odom/odometry.h"
 
-#define PI 3.14159265
-
 OdometryProcessor::OdometryProcessor(float wheelCircumfrance, float wheelBase, float gearRatio)
     : wheelCircumfrance(wheelCircumfrance), wheelBase(wheelBase), gearRatio(gearRatio)
 {
@@ -12,20 +10,20 @@ float OdometryProcessor::handleRollover(float currentDegreeReading, float lastDe
     // float deltaDegrees = 0.0;
     // if (currentDegreeReading != lastDegreeReading)
     // {
-        float currentPreviousDelta = currentDegreeReading - lastDegreeReading;
-        // float previousCurrentDelta = lastDegreeReading - currentDegreeReading;
+    float currentPreviousDelta = currentDegreeReading - lastDegreeReading;
+    // float previousCurrentDelta = lastDegreeReading - currentDegreeReading;
 
-        if (currentPreviousDelta > this->rollOverThreshold)
-        {
-            currentPreviousDelta = 0 - (360.0 - currentPreviousDelta);
-        }
+    if (currentPreviousDelta > this->rollOverThreshold)
+    {
+        currentPreviousDelta = 0 - (360.0 - currentPreviousDelta);
+    }
 
-        else if (currentPreviousDelta < -this->rollOverThreshold)
-        {
-            currentPreviousDelta = 360.0 + currentPreviousDelta;
-        }
+    else if (currentPreviousDelta < -this->rollOverThreshold)
+    {
+        currentPreviousDelta = 360.0 + currentPreviousDelta;
+    }
 
-        return currentPreviousDelta;
+    return currentPreviousDelta;
     // }
     // If current is same as last, return no delta
     // return 0;

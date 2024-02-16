@@ -62,7 +62,7 @@ void Converter::publishOdomData()
     tf2::Quaternion q;
     q.setRPY(0, 0, position.theta);
 
-    std::cout << "Theta: " << position.theta << std::endl;
+    std::cout << "Theta (degrees): " << (position.theta) * 180/PI << std::endl;
     // odomPose.orientation.z = position.theta;
     // odomPose.orientation.w = 1.0;
     odomPose.orientation.x = q.x();

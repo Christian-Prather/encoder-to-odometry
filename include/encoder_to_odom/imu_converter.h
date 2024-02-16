@@ -5,6 +5,8 @@
 #include "sensor_msgs/msg/imu.hpp"
 #include <luci_messages/msg/luci_imu.hpp>
 
+#define PI 3.14159265
+
 namespace IMU_CONVERTER
 {
 
@@ -46,6 +48,10 @@ class Converter : public rclcpp::Node
     rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imuPublisher;
     /// Encoder subscriber
     rclcpp::Subscription<luci_messages::msg::LuciImu>::SharedPtr imuSubscription;
+
+    // geometry_msgs::msg::Quaternion firstReading;
+    float firstReading = 0.0;
+    bool first = true;
 
     /**
      * @brief Encoder subscriber call back

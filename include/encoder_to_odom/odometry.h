@@ -2,6 +2,8 @@
 #include <iostream>
 #include <math.h>
 
+#define PI 3.14159265
+
 /**
  * @brief Enum to determin which motor an encoder is attached to
  *

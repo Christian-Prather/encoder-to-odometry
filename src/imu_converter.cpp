@@ -60,12 +60,50 @@ void Converter::imuCallback(const luci_messages::msg::LuciImu::SharedPtr msg)
 
     sensor_msgs::msg::Imu rosImuMsg;
 
+    if (this->first)
+    {
+
+        // this->firstReading.x = msg->quaternion_x;
+        // this->firstReading.y = msg->quaternion_y;
+        // this->firstReading.z = msg->quaternion_z;
+        // this->firstReading.w = msg->quaternion_w;
+        this->first = false;
+        this->firstReading = -msg->euler_z;
+        std::cout << "Starting angle " << this->firstReading << std::endl;
+        return;
+    }
+
     // Orientation
     geometry_msgs::msg::Quaternion orientation;
-    orientation.x = msg->quaternion_x;
-    orientation.y = msg->quaternion_y;
-    orientation.z = msg->quaternion_z;
-    orientation.w = msg->quaternion_w;
+    tf2::Quaternion q;
+
+    float currentTotalPoseTheta = -msg->euler_z - this->firstReading; // Degrees
+    currentTotalPoseTheta *= (PI / 180);
+    if (currentTotalPoseTheta > PI)
+    {
+        currentTotalPoseTheta -= 2.0 * PI;
+    }
+    else if (currentTotalPoseTheta < -PI)
+    {
+        currentTotalPoseTheta += 2.0 * PI;
+    }
+
+    std::cout << "Theta(Degrees): " << -msg->euler_z - this->firstReading
+              << " rollover: " << currentTotalPoseTheta * (180 / PI) << std::endl;
+
+    q.setRPY(0, 0, currentTotalPoseTheta);
+
+    orientation.x = q.x();
+    orientation.y = q.y();
+    orientation.z = q.z();
+    orientation.w = q.w();
+
+    rosImuMsg.orientation_covariance[0] = 1.0;
+    rosImuMsg.orientation_covariance[7] = 1.0;
+    rosImuMsg.orientation_covariance[14] = 1.0;
+    rosImuMsg.orientation_covariance[21] = 1.0;
+    rosImuMsg.orientation_covariance[28] = 1.0;
+    rosImuMsg.orientation_covariance[35] = 1.0;
 
     geometry_msgs::msg::Vector3 linearAcceleration;
     linearAcceleration.x = msg->acceleration_x;
