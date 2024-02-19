@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <iostream>
 #include <math.h>
 
@@ -19,6 +20,12 @@ struct Position
     float x;
     float y;
     float theta;
+};
+
+struct Velocity
+{
+    float linearY;
+    float angularZ;
 };
 
 class OdometryProcessor
@@ -73,6 +80,17 @@ class OdometryProcessor
      * @return Position (x,y,theta) or robot in odom coordinate frame
      */
     Position getPosition();
+
+    Velocity getVelocity();
+    float getDeltaTime();
+
+    long long int currentSec = 0;
+    long long int currentNano = 0;
+
+    long long int lastSec = 0;
+    long long int lastNano = 0;
+
+    float deltaTimeCapture = 0.0;
 
   private:
     /**
@@ -167,4 +185,13 @@ class OdometryProcessor
 
     /// Number of readings to throw out before considering the system stabilized
     int stablizationAmount = 3;
+
+    std::chrono::time_point<std::chrono::system_clock> linearStartTime;
+    std::chrono::time_point<std::chrono::system_clock> angularStartTime;
+
+    float maxVelocity = 0.0;
+    float linearVelocity = 0.0;
+    float angularVelocity = 0.0;
+
+    float totalDistance = 0.0;
 };

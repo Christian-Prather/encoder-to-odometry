@@ -32,7 +32,7 @@ class Converter : public rclcpp::Node
 
         /// Encoder subscriber, listens for encoder messages from LUIC
         encoderSubscription = this->create_subscription<luci_messages::msg::LuciEncoders>(
-            "luci/encoders", 10,
+            "luci/encoders", 1,
             std::bind(&Converter::encoderCallback, this, std::placeholders::_1));
 
         /// Main logic of the node
