@@ -100,7 +100,7 @@ float OdometryProcessor::calculateMetersTraveled(float totalDegrees) // Per fram
 
 void OdometryProcessor::calculateFrameDistance(float leftDistance, float rightDistance)
 {
-    auto end = std::chrono::system_clock::now();
+    // auto end = std::chrono::system_clock::now();
 
     this->frameDistance = (rightDistance + leftDistance) / 2.0;
 
@@ -110,8 +110,9 @@ void OdometryProcessor::calculateFrameDistance(float leftDistance, float rightDi
     //     std::chrono::duration_cast<std::chrono::milliseconds>(end -
     //     this->linearStartTime).count() / 1000.0f;
 
-    int deltaSeconds = this->currentSec - this->lastSec;
-    int deltaNano = 0;
+    // int deltaSeconds = this->currentSec - this->lastSec;
+    // int deltaNano = 0;
+
     // This assumes the delta time is never greater than 1 second
     // if (deltaSeconds > 0)
     // {
@@ -121,66 +122,67 @@ void OdometryProcessor::calculateFrameDistance(float leftDistance, float rightDi
     // }
     // else
     // {
-    deltaNano = this->currentNano - this->lastNano;
+
+    // deltaNano = this->currentNano - this->lastNano;
     // }
 
-    std::cout << "DS: " << deltaSeconds << " DN: " << deltaNano << std::endl;
+    // std::cout << "DS: " << deltaSeconds << " DN: " << deltaNano << std::endl;
 
-    float millisecondDelta = (deltaNano / 1000000) + (deltaSeconds * 1000);
+    // float millisecondDelta = (deltaNano / 1000000) + (deltaSeconds * 1000);
 
-    float deltaTime = millisecondDelta / 1000.0f;
-    this->deltaTimeCapture = deltaTime;
+    // float deltaTime = millisecondDelta / 1000.0f;
+    // this->deltaTimeCapture = deltaTime;
 
-    if (this->stablizationAmount > 0)
-    {
-        // this->stablizationAmount--;
-        // return 0.0;
-        return;
-    }
+    // if (this->stablizationAmount > 0)
+    // {
+    //     // this->stablizationAmount--;
+    //     // return 0.0;
+    //     return;
+    // }
 
-    if (deltaTime < 0.01)
-    {
-        deltaTime = 0.015;
-    }
+    // if (deltaTime < 0.01)
+    // {
+    //     deltaTime = 0.015;
+    // }
 
     // M/S velocity relative to the robot frame??
     // TODO: clp make sure this ^ is true
 
     // if (deltaTime > 0.005)
     // {
-    float velocity = this->frameDistance / (deltaTime); // should be deltaTime
-    if (std::abs(velocity) < 5.0)
-    {
-        if (std::abs(velocity) > std::abs(this->maxVelocity))
-        {
-            std::cout << "---------------------------------------------------------------------"
-                         "----------------------------------"
-                      << std::endl;
-            this->maxVelocity = velocity;
-        }
+    // float velocity = this->frameDistance / (deltaTime); // should be deltaTime
+    // if (std::abs(velocity) < 5.0)
+    // {
+    //     if (std::abs(velocity) > std::abs(this->maxVelocity))
+    //     {
+    //         std::cout << "---------------------------------------------------------------------"
+    //                      "----------------------------------"
+    //                   << std::endl;
+    //         this->maxVelocity = velocity;
+    //     }
 
-        std::cout << "DT: " << deltaTime << " distance: " << this->frameDistance
-                  << " M/S: " << velocity << " MAX: " << this->maxVelocity
-                  << " Total Dist: " << this->totalDistance << std::endl;
-        this->linearVelocity = velocity;
-    }
+    //     std::cout << "DT: " << deltaTime << " distance: " << this->frameDistance
+    //               << " M/S: " << velocity << " MAX: " << this->maxVelocity
+    //               << " Total Dist: " << this->totalDistance << std::endl;
+    //     this->linearVelocity = velocity;
+    // }
     // }
     // this->start = std::chrono::system_clock::now();
-    this->linearStartTime = std::chrono::system_clock::now();
+    // this->linearStartTime = std::chrono::system_clock::now();
 }
 
 // Radians
 void OdometryProcessor::calculateHeadingAngleDelta(float leftDistance, float rightDistance)
 {
-    auto end = std::chrono::system_clock::now();
+    // auto end = std::chrono::system_clock::now();
 
     // float deltaTime =
     //     std::chrono::duration_cast<std::chrono::milliseconds>(end - this->angularStartTime)
     //         .count() /
     //     1000.0f;
 
-    int deltaSeconds = this->currentSec - this->lastSec;
-    int deltaNano = 0;
+    // int deltaSeconds = this->currentSec - this->lastSec;
+    // int deltaNano = 0;
     // This assumes the delta time is never greater than 1 second
     // if (deltaSeconds > 0)
     // {
@@ -190,26 +192,26 @@ void OdometryProcessor::calculateHeadingAngleDelta(float leftDistance, float rig
     // }
     // else
     // {
-    deltaNano = this->currentNano - this->lastNano;
+    // deltaNano = this->currentNano - this->lastNano;
     // }
 
-    float millisecondDelta = (deltaNano / 1000000) + (deltaSeconds * 1000);
+    // float millisecondDelta = (deltaNano / 1000000) + (deltaSeconds * 1000);
 
-    float deltaTime = millisecondDelta / 1000.0f;
+    // float deltaTime = millisecondDelta / 1000.0f;
 
     float difference = rightDistance - leftDistance;
     float angle = asinf(difference / this->wheelBase); // Radians
 
-    if (deltaTime < 0.01)
-    {
-        deltaTime = 0.015;
-    }
+    // if (deltaTime < 0.01)
+    // {
+    //     deltaTime = 0.015;
+    // }
 
-    float velocity = angle / (deltaTime);
+    // float velocity = angle / (deltaTime);
 
-    this->angularVelocity = velocity;
+    // this->angularVelocity = velocity;
 
-    std::cout << "Angular M/S: " << this->angularVelocity << std::endl;
+    // std::cout << "Angular M/S: " << this->angularVelocity << std::endl;
     // if (!firstRun)
     // {
     this->currentTotalPoseTheta += (angle);
@@ -263,7 +265,7 @@ void OdometryProcessor::calculateDistanceMovedX()
     // if (!firstRun)
     // {
 
-    float distanceMoved = sinf(this->currentTotalPoseTheta) * this->frameDistance;
+    float distanceMoved = cosf(this->currentTotalPoseTheta) * this->frameDistance;
 
     this->totalDistanceX += distanceMoved;
     // }
@@ -274,7 +276,7 @@ void OdometryProcessor::calculateDistanceMovedY()
     // if (!firstRun)
 
     // {
-    float distanceMoved = cosf(this->currentTotalPoseTheta) * this->frameDistance;
+    float distanceMoved = sinf(this->currentTotalPoseTheta) * this->frameDistance;
     this->totalDistanceY += distanceMoved;
 
     // std::cout << "Frame Dist: " << this->frameDistance

@@ -58,7 +58,7 @@ void Converter::publishOdomData()
     auto position = this->processor.getPosition();
 
     // TODO: clp handle the axis switch in proper ros fashion
-    odomPose.position.x = -position.x;
+    odomPose.position.x = position.x;
     odomPose.position.y = position.y;
     odomPose.position.z = 0.0;
 
@@ -86,8 +86,8 @@ void Converter::encoderCallback(const luci_messages::msg::LuciEncoders::SharedPt
     // likely unneeded for this node but may make sense to keep in general library
     auto leftAngle = msg->left_angle;
     auto rightAngle = msg->right_angle;
-    this->processor.currentSec = msg->seconds;
-    this->processor.currentNano = msg->nanoseconds;
+    // this->processor.currentSec = msg->seconds;
+    // this->processor.currentNano = msg->nanoseconds;
 
     this->processor.updateCurrentValue(leftAngle, Motor::LEFT);
     this->processor.updateCurrentValue(rightAngle, Motor::RIGHT);
@@ -95,7 +95,7 @@ void Converter::encoderCallback(const luci_messages::msg::LuciEncoders::SharedPt
 
     // if (this->processor.getDeltaTime() > 0.01)
     // {
-    this->processor.lastSec = this->processor.currentSec;
-    this->processor.lastNano = this->processor.currentNano;
+    // this->processor.lastSec = this->processor.currentSec;
+    // this->processor.lastNano = this->processor.currentNano;
     // }
 }
